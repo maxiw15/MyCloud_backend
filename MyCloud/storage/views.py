@@ -1,3 +1,5 @@
+# File Path: C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\storage\views.py
+
 from rest_framework import generics, permissions
 from django.contrib.auth import get_user_model
 from .models import File
@@ -9,6 +11,7 @@ User = get_user_model()
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]  # Allow unauthenticated access
 
 
 class UserListView(generics.ListAPIView):

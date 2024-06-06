@@ -1,10 +1,25 @@
-from django.contrib.auth.models import AbstractUser
+# C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\storage\models.py
+
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
 
 class CustomUser(AbstractUser):
-    full_name = models.CharField(max_length=255)
     is_admin = models.BooleanField(default=False)
+    groups = models.ManyToManyField(
+        Group,
+        related_name='customuser_groups',  # Уникальное имя для обратного доступа
+        blank=True,
+        help_text='The groups this user belongs to.',
+        verbose_name='groups'
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='customuser_user_permissions',  # Уникальное имя для обратного доступа
+        blank=True,
+        help_text='Specific permissions for this user.',
+        verbose_name='user permissions'
+    )
 
     def __str__(self):
         return self.username
