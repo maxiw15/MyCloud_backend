@@ -1,45 +1,27 @@
-# File Path: C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\storage\views.py
+import os
+import logging
 
-from rest_framework import generics, permissions
-from django.contrib.auth import get_user_model
+from django.conf import settings
+from django.http import HttpResponse
+
+from dotenv import load_dotenv
+
 from .models import File
-from .serializers import UserSerializer, RegisterSerializer, FileSerializer
-
-User = get_user_model()
 
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer
-    permission_classes = [permissions.AllowAny]  # Allow unauthenticated access
+load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 
-class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser]
-
-
-class FileListView(generics.ListCreateAPIView):
-    serializer_class = FileSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_admin:
-            return File.objects.all()
-        return File.objects.filter(user=user)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class FileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_admin:
-            return File.objects.all()
-        return File.objects.filter(user=user)
+def redirect_to_file(request, hash):
+    try:
+        share_link = f"{os.getenv('REACT_APP_API_URL')}/s/{hash}"
+        file_obj = File.objects.get(share_link=share_link)
+        response = HttpResponse(file_obj.file)
+        response['Content-Disposition'] = f'attachment; filename="{file_obj.filename}"'
+        logger.info(f"File '{file_obj.filename}' was provided for download.")
+        return response
+    except File.DoesNotExist:
+        logger.error("Share link not found.")
+        return HttpResponse("Share link not found", status=404)
