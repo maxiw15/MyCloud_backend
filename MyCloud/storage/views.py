@@ -1,27 +1,16 @@
-import os
-import logging
-
-from django.conf import settings
-from django.http import HttpResponse
-
-from dotenv import load_dotenv
-
+# views.py (альтернативный способ формирования заголовка Content-Disposition)
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404
 from .models import Document
-locals()
-
-load_dotenv()
-
-logger = logging.getLogger(__name__)
-
 
 def redirect_to_document(request, hash):
     try:
-        share_link = f"{os.getenv('REACT_APP_API_URL')}/s/{hash}"
-        document_obj = Document.objects.get(share_link=share_link)
-        response = HttpResponse(document_obj.file)
-        response['Content-Disposition'] = f'attachment; filename="{document_obj.filename}"'
-        logger.info(f"Document '{document_obj.filename}' provided for download.")
-        return response
+        document = get_object_or_404(Document, share_link=f'http://127.0.0.1:8000/s/{hash}')
+        file_path = document.file.path
+        with open(file_path, 'rb') as f:
+            response = HttpResponse(f.read(), content_type='application/octet-stream')
+            response['Content-Disposition'] = f'attachment; filename="{document.filename}"'
+            response['Content-Length'] = document.file.size
+            return response
     except Document.DoesNotExist:
-        logger.error("Share link not found.")
         return HttpResponse("Share link not found", status=404)

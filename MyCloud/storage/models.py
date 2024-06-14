@@ -50,7 +50,6 @@ class Document(models.Model):
     uploaded_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
 
     def save(self, *args, **kwargs):
-
         user_folder = self.uploaded_by.username
         hash_link = hash(self.upload_datetime)
 
@@ -71,7 +70,7 @@ class Document(models.Model):
                 self.filename = self.file.name
                 self.file.name = os.path.join(user_folder, f'{hash_link}{file_ext}')
 
-            self.share_link = os.path.join(os.getenv('REACT_APP_API_URL'), 's', f'document{hash_link}')
+            self.share_link = f'http://127.0.0.1:8000/s/{hash_link}'
             self.size = format_size(self.file.size)
 
         super().save(*args, **kwargs)

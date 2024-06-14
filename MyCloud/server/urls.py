@@ -12,8 +12,8 @@ urlpatterns = [
     path('api/', include(api_router.urls)),
     path('s/<str:hash>/', redirect_to_document, name='redirect_to_document'),
 
-    path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
+    path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
 ]
 
