@@ -1,9 +1,9 @@
 from rest_framework import routers
 
-from accounts.viewsets import UserViewSet
-from storage.viewsets import FileViewSet
+from accounts.viewsets import CustomUserViewSet
+from storage.viewsets import DocumentViewSet
 
 
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet, basename='users')
-router.register(r'files', FileViewSet, basename='files')
+api_router = routers.DefaultRouter()
+api_router.register(r'users', CustomUserViewSet, basename='users')
+api_router.register(r'documents', DocumentViewSet, basename='documents')

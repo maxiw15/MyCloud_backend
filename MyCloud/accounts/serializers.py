@@ -5,71 +5,69 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import User
-from storage.models import File
-
+from .models import CustomUser
+from storage.models import Document
 
 logger = logging.getLogger(__name__)
 
 
-class TokenSerializer(serializers.ModelSerializer):
+class AuthTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = ['key']
 
 
-class UserSerializer(serializers.ModelSerializer):
-    files = serializers.SerializerMethodField(source=File.objects.all())
+class CustomUserSerializer(serializers.ModelSerializer):
+    documents = serializers.SerializerMethodField(source=Document.objects.all())
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('id', 'username', 'password', 'joined_at',
-                  'is_active', 'is_staff', 'files')
+                  'is_active', 'is_staff', 'documents')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         try:
-            new_user = User.objects.create_user(**validated_data)
-            logger.info(f"User '{new_user}' was successfully created.")
+            new_user = CustomUser.objects.create_user(**validated_data)
+            logger.info(f"New user '{new_user}' created successfully.")
         except Exception as e:
-            logger.error(f"User '{new_user}' was not created. Error: {e}.")
+            logger.error(f"Failed to create user '{new_user}'. Error: {e}.")
         return new_user
 
-    def get_files(self, obj):
-        user_files = File.objects.filter(by_user=obj)
-        filenames = [file.filename for file in user_files if file.file]
-        return filenames
-    
-
-class RestrictedUserSerializer(serializers.ModelSerializer):
-    files = serializers.SerializerMethodField(source=File.objects.all())
-    
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'files')
-        
-    def get_files(self, obj):
-        user_files = File.objects.filter(by_user=obj)
-        filenames = [file.filename for file in user_files if file.file]
+    def get_documents(self, obj):
+        user_documents = Document.objects.filter(by_user=obj)
+        filenames = [doc.filename for doc in user_documents if doc.file]
         return filenames
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
+class LimitedUserSerializer(serializers.ModelSerializer):
+    documents = serializers.SerializerMethodField(source=Document.objects.all())
+
     class Meta:
-        model = User
+        model = CustomUser
+        fields = ('id', 'username', 'documents')
+
+    def get_documents(self, obj):
+        user_documents = Document.objects.filter(by_user=obj)
+        filenames = [doc.filename for doc in user_documents if doc.file]
+        return filenames
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
         fields = ('username', 'password', 'is_staff')
 
     def create(self, validated_data):
-        
         if 'is_staff' not in validated_data:
             validated_data['is_staff'] = False
-            
-        user_obj = user = User.objects.create_user(
+
+        user_instance = CustomUser.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
             is_staff=validated_data['is_staff']
         )
-        return user_obj
+        return user_instance
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -77,4 +75,4 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(required=True)
 
     class Meta:
-        model = User
+        model = CustomUser

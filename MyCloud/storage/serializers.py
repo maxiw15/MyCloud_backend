@@ -1,26 +1,25 @@
 from rest_framework import serializers
 
-from .models import File
-from accounts.models import User
+from .models import Document
+from accounts.models import CustomUser
 
 
-class FileSerializer(serializers.ModelSerializer):
+class DocumentSerializer(serializers.ModelSerializer):
     filename = serializers.CharField(max_length=255, default='')
     description = serializers.CharField(max_length=255, default='')
     upload_datetime = serializers.SerializerMethodField()
-    by_user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    uploaded_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
     size = serializers.SerializerMethodField()
     share_link = serializers.SerializerMethodField()
 
     class Meta:
-        model = File
+        model = Document
         fields = ('id', 'filename', 'file', 'description',
-                  'upload_datetime', 'by_user', 'size', 'share_link')
+                  'upload_datetime', 'uploaded_by', 'size', 'share_link')
 
     def get_upload_datetime(self, obj):
-        datetime = obj.upload_datetime
-        return datetime
-    
+        return obj.upload_datetime
+
     def get_size(self, obj):
         return obj.size
 
@@ -30,9 +29,9 @@ class FileSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
-        by_user_id = representation['by_user']
-        user = User.objects.filter(pk=by_user_id).values(
-            'username').first() if by_user_id else None
-        representation['by_user'] = user['username'] if user else None
+        uploaded_by_id = representation['uploaded_by']
+        user = CustomUser.objects.filter(pk=uploaded_by_id).values(
+            'username').first() if uploaded_by_id else None
+        representation['uploaded_by'] = user['username'] if user else None
 
         return representation

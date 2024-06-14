@@ -6,15 +6,15 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.authentication import TokenAuthentication
 
-from .models import File
-from .serializers import FileSerializer
+from .models import Document
+from .serializers import DocumentSerializer
 
 logger = logging.getLogger(__name__)
 
 
-class FileViewSet(viewsets.ModelViewSet):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
+class DocumentViewSet(viewsets.ModelViewSet):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
@@ -22,13 +22,13 @@ class FileViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_anonymous:
-            return File.objects.none()
+            return Document.objects.none()
         if user.is_staff:
-            return File.objects.all()
-        return File.objects.filter(by_user=user.id)
+            return Document.objects.all()
+        return Document.objects.filter(uploaded_by=user.id)
 
     def post(self, request, format=None):
-        serializer = FileSerializer(data=request.data)
+        serializer = DocumentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED, content_type='application/json')
@@ -41,10 +41,10 @@ class FileViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
-            response_message = f"File with id='{instance.id}' was successfully updated by user '{instance.by_user}'."
+            response_message = f"Document with id='{instance.id}' updated successfully by user '{instance.uploaded_by}'."
             logger.info(response_message)
         except Exception as e:
-            response_message = f"File was not updated. Error: {e}."
+            response_message = f"Failed to update document. Error: {e}."
             logger.error(response_message)
             return Response({'response': response_message},
                             status=status.HTTP_400_BAD_REQUEST,
@@ -56,23 +56,22 @@ class FileViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         new_filename = self.request.data.get("name", None)
         if new_filename:
-            serializer.instance.new_filename = new_filename
-        serializer.save()
+            serializer.instance.filename = new_filename
+            serializer.save()
 
     def destroy(self, request, *args, **kwargs):
-
         for k, v in kwargs.items():
             for id in v.split(','):
                 try:
-                    obj = get_object_or_404(File, pk=int(id))
+                    obj = get_object_or_404(Document, pk=int(id))
                     logger.info(
-                        f"File '{obj.filename}' delete was initialized by user '{obj.by_user}'.")
+                        f"Document '{obj.filename}' deletion initiated by user '{obj.uploaded_by}'.")
                     self.perform_destroy(obj)
-                    response_message = f"File '{obj.filename}' was successfully deleted by user '{obj.by_user}'."
+                    response_message = f"Document '{obj.filename}' deleted successfully by user '{obj.uploaded_by}'."
                     logger.warning(response_message)
 
                 except Exception as e:
-                    response_message = f"File {obj.filename} was not deleted. Error: {e}."
+                    response_message = f"Failed to delete document '{obj.filename}'. Error: {e}."
                     logger.error(response_message)
                     return Response({'response': response_message},
                                     status=status.HTTP_400_BAD_REQUEST,

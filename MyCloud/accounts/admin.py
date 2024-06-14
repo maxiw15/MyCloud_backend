@@ -1,25 +1,25 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
-from .models import User
-from storage.models import File
+from .models import CustomUser
+from storage.models import Document
 
 
-class FileInline(admin.TabularInline):
-    model = File
+class DocumentInline(admin.TabularInline):
+    model = Document
     extra = 0
     max_num = 0
     exclude = ('file_url', 'file',)
     readonly_fields = ('upload_datetime', 'share_link')
 
 
-class MyUserAdmin(UserAdmin):
-    model = User
-    inlines = (FileInline, )
+class CustomUserAdmin(BaseUserAdmin):
+    model = CustomUser
+    inlines = (DocumentInline,)
     list_filter = ()
-    list_display = ('username', 'joined_at', 'file_count',
-                    'is_active', 'is_staff', )
+    list_display = ('username', 'joined_at', 'document_count',
+                    'is_active', 'is_staff',)
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
@@ -31,9 +31,9 @@ class MyUserAdmin(UserAdmin):
         }),
     )
 
-    def file_count(self, obj):
-        return obj.file_set.count()
+    def document_count(self, obj):
+        return obj.document_set.count()
 
 
-admin.site.register(User, MyUserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.unregister(Group)

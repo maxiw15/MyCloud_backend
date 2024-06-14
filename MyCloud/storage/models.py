@@ -9,70 +9,70 @@ from django.conf import settings
 
 from dotenv import load_dotenv
 
-from accounts.models import User
+from accounts.models import CustomUser
 
 load_dotenv()
 
 logger = logging.getLogger(__name__)
 
 
-def check_unique_filename(userfolder, filename):
-    new_filepath = os.path.join(userfolder, filename)
-    if File.objects.filter(file=new_filepath):
-        filename = get_available_name(userfolder, filename)
+def ensure_unique_filename(user_folder, filename):
+    new_filepath = os.path.join(user_folder, filename)
+    if Document.objects.filter(file=new_filepath):
+        filename = generate_unique_name(user_folder, filename)
     return filename
 
 
-def get_available_name(userfolder, filename):
+def generate_unique_name(user_folder, filename):
     count = 0
     file_root, file_ext = os.path.splitext(filename)
-    while File.objects.filter(file=os.path.join(userfolder, filename)):
+    while Document.objects.filter(file=os.path.join(user_folder, filename)):
         count += 1
         filename = f'{file_root}_{count}{file_ext}'
     return filename
 
 
-def convert_size(size_bytes):
-    size_name = ('B', 'KB', 'MB', 'GB')
+def format_size(size_bytes):
+    size_units = ('B', 'KB', 'MB', 'GB')
     i = int(math.floor(math.log(size_bytes, 1024)))
     s = round(size_bytes / math.pow(1024, i), 2)
-    return f'{s} {size_name[i]}'
+    return f'{s} {size_units[i]}'
 
 
-class File(models.Model):
+class Document(models.Model):
     id = models.AutoField(primary_key=True)
-    file = models.FileField(null=True, verbose_name='file in storage')
+    file = models.FileField(null=True, verbose_name='Stored File')
     filename = models.CharField(max_length=255, null=True, default='')
     description = models.TextField(null=True, default='')
     size = models.CharField(null=True, default='')
     share_link = models.CharField(max_length=100, null=True, default='')
     upload_datetime = models.DateTimeField(default=timezone.now)
-    by_user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    uploaded_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
 
     def save(self, *args, **kwargs):
 
-        userfolder = self.by_user.username
+        user_folder = self.uploaded_by.username
         hash_link = hash(self.upload_datetime)
 
         if self.id:
             logger.info(
-                f"Update file with id='{self.id}' and filename='{self.filename}' was initialized by {self.by_user}.")
+                f"Updating document with id='{self.id}' and filename='{self.filename}' initiated by {self.uploaded_by}.")
             old_full_filepath = self.file.path
-            new_full_filepath = os.path.join(settings.MEDIA_ROOT, userfolder, self.filename)
-            self.file.name = os.path.join(userfolder, self.filename)
+            new_full_filepath = os.path.join(settings.MEDIA_ROOT, user_folder, self.filename)
+            self.file.name = os.path.join(user_folder, self.filename)
             os.rename(old_full_filepath, new_full_filepath)
         else:
             file_root, file_ext = os.path.splitext(self.file.name)
 
             if self.filename:
-                self.filename = check_unique_filename(userfolder, f'{self.filename}{file_ext}')
-                self.file.name = os.path.join(userfolder, self.filename)
+                self.filename = ensure_unique_filename(user_folder, f'{self.filename}{file_ext}')
+                self.file.name = os.path.join(user_folder, self.filename)
             else:
                 self.filename = self.file.name
-                self.file.name = os.path.join(userfolder, f'{hash_link}{file_ext}')
+                self.file.name = os.path.join(user_folder, f'{hash_link}{file_ext}')
 
-            self.share_link = os.path.join(os.getenv('REACT_APP_API_URL'), 's', f'file{hash_link}')
-            self.size = convert_size(self.file.size)
+            self.share_link = os.path.join(os.getenv('REACT_APP_API_URL'), 's', f'document{hash_link}')
+            self.size = format_size(self.file.size)
 
         super().save(*args, **kwargs)
 
@@ -80,7 +80,7 @@ class File(models.Model):
         return str(self.file.name)
 
 
-@receiver(models.signals.post_delete, sender=File)
+@receiver(models.signals.post_delete, sender=Document)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.file and os.path.isfile(instance.file.path):
         os.remove(instance.file.path)
