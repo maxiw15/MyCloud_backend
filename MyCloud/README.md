@@ -1,285 +1,70 @@
-# Дипломный проект по профессии «Fullstack-разработчик на Python»
+# Getting Started with Create React App
 
-## ☁️ Облачное хранилище My Cloud
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Веб-приложение, которое работает как облачное хранилище. Приложение позволяет пользователям отображать, загружать, отправлять, скачивать и переименовывать файлы. Пользователи могут регистрироваться, логиниться в аккаунт, выходить из него. Пользователь имеет доступ только к своему аккаунту и своим файлам. Есть административный интерфейс — администратор может выполнять все вышеупомянутые действия с любыми пользователями или файлами.
+## Available Scripts
 
-![Demo](demo.gif)
+In the project directory, you can run:
 
-## 🛠 Tech stack
+### `npm start`
 
-Django, React, Redux.  
-Полагаю у вас уже стоит Python v.3.10+, NodeJS v.18+, PostgreSQL v.14+.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## 🔮 Локальная установка
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-- клонируем репозиторий
-```
-$ git clone https://github.com/lulzseq/netology-cloud-storage.git
-$ cd netology-cloud-storage
-```
-### База данных
+### `npm test`
 
-- создаем базу данных PostgreSQL
-```
-$ psql
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-# CREATE DATABASE django_db;
-```
-### Бэкенд
-- активируем виртуальное окружение
-```
-$ python -m venv env
-$ source ./env/bin/activate
-```
-Создаем файл `.env`, где указываем параметры подключения к PostgreSQL и Django Secret Key:
-```
-# Django
+### `npm run build`
 
-DJANGO_SECRET_KEY = '<DJANGO_SECRET_KEY>'
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-POSTGRES_DB = 'django_db'
-POSTGRES_USER = '<логин>'
-POSTGRES_PASSWORD = '<пароль>'
-POSTGRES_HOST = 'http://<IP сервера>'
-POSTGRES_PORT = '5432'
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-# React
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-REACT_APP_API_URL = 'http://<IP сервера>'
+### `npm run eject`
 
-# Например, при локальном развертывании это будет http://127.0.0.1:8000
-```
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-- запускаем бэкенд
-```
-(env) $ pip install -r requirements.txt
-(env) $ python manage.py makemigrations accounts
-(env) $ python manage.py makemigrations storage
-(env) $ python manage.py migrate
-(env) $ python manage.py runserver
-```
-Пути для API:
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```
-POST /register/ создать пользователя
-POST /login/ логин пользователя
-GET /logout/ логаут пользователя
-PATCH /api/users/<id> переименовать пользователя по ID
-DELETE /api/users/ удалить пользователя
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-GET /api/users/ получить всех юзеров (или только запрашивающего пользователя)
-GET /api/users/<id> получить конкретного юзера по ID
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-GET /api/files/ получить все файлы
-GET /api/files/<id> получить инфо файла по ID
+## Learn More
 
-POST /api/files/ загрузить файл (form-data)
-PATCH /api/files/<id> переименовать файл по ID
-DELETE /api/files/<id> удалить файл по ID
-```
-### Фронтенд
-- запускаем фронтенд
-```
-(env) $ yarn
-(env) $ yarn start
-```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-## 🎰 Развертывание на сервере
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-- коннектимся к серверу
-```
-$ ssh root@<IP сервера>
-```
-- создаем юзера, даем ему права и коннектимся с ним
-```
-$ adduser <unix_username>
-$ usermod <unix_username> -aG sudo
-$ su - <unix_username>
-```
-- обновляем пакеты, устанавливаем новые
-```
-$ sudo apt update
-$ sudo apt upgrade
-$ sudo apt install python3-venv python3-pip postgresql nginx
-```
-- проверяем, что Nginx запущен
-```
-$ sudo systemctl start nginx
-$ sudo systemctl status nginx
-```
-- клонируем репозиторий и заходим в него
-```
-$ git clone https://github.com/lulzseq/netology-cloud-storage.git
-$ cd netology-cloud-storage
-```
-### База данных
-- не забудем установить базу данных, используем пользователя `postgres`
-```
-$ sudo su postgres
-$ psql
+### Code Splitting
 
-# CREATE DATABASE django_db;
-# CREATE USER <username> WITH PASSWORD '<passowrd>';
-# GRANT ALL PRIVILEGES ON DATABASE django_db TO <username>;
-# \q
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-$ exit
-```
-### Бэкенд
-- создаем файл `.env` для указания переменных
-```
-# Django
+### Analyzing the Bundle Size
 
-DJANGO_SECRET_KEY = '<DJANGO_SECRET_KEY>'
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-POSTGRES_DB = 'django_db'
-POSTGRES_USER = '<логин>'
-POSTGRES_PASSWORD = '<пароль>'
-POSTGRES_HOST = 'http://<IP сервера>'
-POSTGRES_PORT = '5432'
+### Making a Progressive Web App
 
-# React
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-REACT_APP_API_URL = 'http://<IP сервера>'
-```
-- создаем и активируем виртуалльное окружение
-```
-$ python3 -m venv env
-$ source ./env/bin/activate
-```
-- устанавливаем зависимости Python, применяем миграции и запускаем бэкенд
-```
-(env) $ pip install -r requirements.txt
-(env) $ python manage.py makemigrations accounts
-(env) $ python manage.py makemigrations storage
-(env) $ python manage.py migrate
-(env) $ python manage.py runserver 0.0.0.0:8000
-```
-Сейчас Django проект должен быть доступен по адресу http://<IP сервера>:8000.
-- пишем конфиг Gunicorn
-```
-(env) $ sudo nano /etc/systemd/system/gunicorn.service
-```
-В файле пишем следующие настройки (вместо `<unix_username>` надо подставить ваше имя юзера):
-```
-[Unit]
-Description=gunicorn.service
-After=network.target
+### Advanced Configuration
 
-[Service]
-User=dima
-Group=www-data
-WorkingDirectory=/home/<unix_username>/netology-cloud-storage
-ExecStart=/home/<unix_username>/netology-cloud-storage/env/bin/gunicorn --access-logfile - --workers=3 --bind unix:/home/<unix_username>/netology-cloud-storage/server/gunicorn.sock server.wsgi:application
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-[Install]
-WantedBy=multi-user.target
-```
-- запускаем Gunicorn
-```
-(env) $ sudo systemctl start gunicorn
-(env) $ sudo systemctl enable gunicorn
-```
-- пишем конфиг Nginx
-```
-(env) $ sudo nano /etc/nginx/sites-available/netology-cloud-storage
-```
-В файле пишем следующие настройки (вместо `<unix_username>` надо подставить ваше имя юзера):
-```
-server {
-	listen 80;
-	server_name 82.97.243.191;
+### Deployment
 
-	location /static/ {
-		root /home/<unix_username>/netology-cloud-storage;
-	}
-        
-        location /static/js/ {
-        alias /home/<unix_username>/netology-cloud-storage/build/static/js/;
-    }
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-       location /static/css/ {
-        alias /home/<unix_username>/netology-cloud-storage/build/static/css/;
-    }
+### `npm run build` fails to minify
 
-	location ~ ^/(api|login|register|logout|s)/ {
-        include proxy_params;
-        proxy_pass http://unix:/home/<unix_username>/netology-cloud-storage/server/gunicorn.sock;
-    }
-
-	location / {
-		root /home/<unix_username>/netology-cloud-storage/build/;
-        try_files $uri /index.html;
-	}
-}
-```
-- делаем ссылку на него
-```
-(env) $ sudo ln -s /etc/nginx/sites-available/netology-cloud-storage /etc/nginx/sites-enabled
-```
-- открываем порты и даем права Nginx
-```
-(env) $ sudo ufw allow 8000
-(env) $ sudo ufw allow 80
-(env) $ sudo ufw allow 'Nginx Full'
-```
-- проверяем, что службы активны
-```
-(env) $ sudo systemctl status gunicorn
-(env) $ sudo systemctl status nginx
-```
-- перезагружаем службы
-```
-(env) $ sudo systemctl daemon-reload
-(env) $ sudo systemctl restart gunicorn
-(env) $ sudo systemctl restart nginx
-```
-Теперь Django проект должен быть доступен по http://<IP сервера> на обычном порту 80. Если видим ошибку 502, то, возможно, делло в правах и меняем существующего юзера на имя нашего юзера:
-```
-(env) $ sudo nano /etc/nginx/nginx.conf
-```
-```
-...
-...
-user <unix_username>
-...
-...
-```
-- перезагружаем службы еще раз и Django проект должен быть доступен по http://<IP сервера> на обычном порту 80:
-```
-(env) $ sudo systemctl daemon-reload
-(env) $ sudo systemctl restart gunicorn
-(env) $ sudo systemctl restart nginx
-```
-- выходим из пользователя обратно в `root`
-```
-(env) $ exit
-```
-### Фронтенд
-- устанавливаем NodeJS v.18+ и свежий Yarn
-```
-$ curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - 
-$ sudo apt-get install -y nodejs
-
-$ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-$ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-$ sudo apt update && sudo apt install yarn
-```
-- заходим обратно в нашего юзера
-```
-$ su - <unix_username>
-```
-- устанавливаем зависимости и запускаем сборку фронтенда
-```
-$ yarn
-$ yarn build
-```
-- проверяем Nginx и перезагружаем его
-```
-$ sudo nginx -t
-$ sudo systemctl restart nginx
-```
-Теперь проект Django + React должен быть полностью доступен по http://<IP сервера> на обычном порту 80.
-## 👮‍♀️ License
-- [MIT](https://github.com/lulzseq/netology-cloud-storage/blob/master/LICENSE)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

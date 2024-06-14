@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from dotenv import load_dotenv
 
 from .models import Document
-
+locals()
 
 load_dotenv()
 

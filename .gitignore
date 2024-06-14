@@ -1,3 +1,5 @@
 
 /.idea
 /MyCloud/node_modules
+/MyCloud/.idea
+/MyCloud/accounts/__pycache__

@@ -6,4 +6,4 @@ from storage.viewsets import DocumentViewSet
 
 api_router = routers.DefaultRouter()
 api_router.register(r'users', CustomUserViewSet, basename='users')
-api_router.register(r'documents', DocumentViewSet, basename='documents')
+api_router.register(r'files', DocumentViewSet, basename='documents')

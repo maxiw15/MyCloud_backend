@@ -18,7 +18,7 @@ class AuthTokenSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    documents = serializers.SerializerMethodField(source=Document.objects.all())
+    documents = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
@@ -35,20 +35,20 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return new_user
 
     def get_documents(self, obj):
-        user_documents = Document.objects.filter(by_user=obj)
+        user_documents = Document.objects.filter(uploaded_by=obj)
         filenames = [doc.filename for doc in user_documents if doc.file]
         return filenames
 
 
 class LimitedUserSerializer(serializers.ModelSerializer):
-    documents = serializers.SerializerMethodField(source=Document.objects.all())
+    documents = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
         fields = ('id', 'username', 'documents')
 
     def get_documents(self, obj):
-        user_documents = Document.objects.filter(by_user=obj)
+        user_documents = Document.objects.filter(uploaded_by=obj)
         filenames = [doc.filename for doc in user_documents if doc.file]
         return filenames
 
