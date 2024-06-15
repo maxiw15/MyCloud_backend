@@ -2,20 +2,20 @@ import os
 import socket
 from pathlib import Path
 from datetime import date
-
+from decouple import config
 from dotenv import load_dotenv
 import colorlog
 
 
-REACT_APP_API_URL = 'http://127.0.0.1:8000'
-
-
+# REACT_APP_API_URL = 'http://127.0.0.1:8000'
+# REACT_APP_API_URL = os.getenv('REACT_APP_API_URL')
+REACT_APP_API_URL = config('REACT_APP_API_URL').strip('"')
 load_dotenv()
 
 DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-y=6mk_6pb952+)b)z(@rg_jr=b3jmsx5-5-g64v#!d2stpnqj$'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 BASE_HOST = '127.0.0.1'
 BASE_URL = 'http://127.0.0.1:3000'
@@ -28,7 +28,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://0.0.0.0:3000',
     'https://localhost:3000',
-    REACT_APP_API_URL
+    REACT_APP_API_URL,
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -37,7 +37,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://0.0.0.0:3000',
     'https://localhost:3000',
-    REACT_APP_API_URL
+    # REACT_APP_API_URL,
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -91,16 +91,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mycloud_db',
-        'USER': 'postgres',
-        'PASSWORD': 'kCgbE4CK',
-        'HOST': '192.168.168.128',
-        'PORT': '5432',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT'),
         'OPTIONS': {
             'options': '-c client_encoding=utf8'},
     }
@@ -144,7 +142,6 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
 
 LOGGING = {
     'version': 1,
