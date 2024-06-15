@@ -1,21 +1,16 @@
 import os
-import socket
 from pathlib import Path
 from datetime import date
 from decouple import config
 from dotenv import load_dotenv
-import colorlog
 
-
-# REACT_APP_API_URL = 'http://127.0.0.1:8000'
-# REACT_APP_API_URL = os.getenv('REACT_APP_API_URL')
 REACT_APP_API_URL = config('REACT_APP_API_URL').strip('"')
 load_dotenv()
 
 DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 BASE_HOST = '127.0.0.1'
 BASE_URL = 'http://127.0.0.1:3000'
@@ -37,10 +32,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://0.0.0.0:3000',
     'https://localhost:3000',
+    'http://127.0.0.1:3000',
     # REACT_APP_API_URL,
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 
 LOGIN_URL = '/login/'

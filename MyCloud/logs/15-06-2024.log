@@ -34,3 +34,61 @@
 2024-06-15 11:21:12,905 INFO django.utils.autoreload C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\server\settings.py changed, reloading.
 2024-06-15 11:21:13,247 INFO django.utils.autoreload Watching for file changes with StatReloader
 2024-06-15 11:21:14,721 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:48:57,859 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:49:03,208 INFO django.server "OPTIONS /login/ HTTP/1.1" 200 0
+2024-06-15 11:49:03,408 ERROR django.server "POST /login/ HTTP/1.1" 500 59
+2024-06-15 11:50:07,855 INFO django.utils.autoreload C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\server\settings.py changed, reloading.
+2024-06-15 11:50:08,211 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:51:13,437 INFO django.utils.autoreload C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\server\settings.py changed, reloading.
+2024-06-15 11:51:15,236 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:51:22,009 ERROR django.server "POST /login/ HTTP/1.1" 500 59
+2024-06-15 11:51:41,529 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:51:47,270 ERROR django.server "POST /login/ HTTP/1.1" 500 59
+2024-06-15 11:52:09,442 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:52:10,976 INFO django.server "POST /login/ HTTP/1.1" 200 135
+2024-06-15 11:52:11,001 INFO django.server "OPTIONS /api/users/1/ HTTP/1.1" 200 0
+2024-06-15 11:52:11,001 INFO django.server "OPTIONS /api/files/ HTTP/1.1" 200 0
+2024-06-15 11:52:11,001 INFO django.server "OPTIONS /api/users/ HTTP/1.1" 200 0
+2024-06-15 11:52:11,003 INFO django.server "OPTIONS /api/users/1/ HTTP/1.1" 200 0
+2024-06-15 11:52:11,004 INFO django.server "OPTIONS /api/files/ HTTP/1.1" 200 0
+2024-06-15 11:52:11,004 INFO django.server "OPTIONS /api/users/ HTTP/1.1" 200 0
+2024-06-15 11:52:11,032 INFO django.server "GET /api/files/ HTTP/1.1" 200 2
+2024-06-15 11:52:11,039 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:52:11,050 INFO django.server "GET /api/users/ HTTP/1.1" 200 1322
+2024-06-15 11:52:11,062 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:52:11,069 INFO django.server "GET /api/files/ HTTP/1.1" 200 2
+2024-06-15 11:52:11,087 INFO django.server "GET /api/users/ HTTP/1.1" 200 1322
+2024-06-15 11:52:26,328 INFO django.utils.autoreload C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\server\settings.py changed, reloading.
+2024-06-15 11:52:26,694 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:52:54,646 INFO django.server "OPTIONS /logout/ HTTP/1.1" 200 0
+2024-06-15 11:52:54,686 INFO django.server "GET /logout/ HTTP/1.1" 200 65
+2024-06-15 11:54:16,598 INFO django.server "OPTIONS /register/ HTTP/1.1" 200 0
+2024-06-15 11:54:16,880 INFO django.server "POST /register/ HTTP/1.1" 201 144
+2024-06-15 11:54:16,897 INFO django.server "OPTIONS /api/users/17/ HTTP/1.1" 200 0
+2024-06-15 11:54:16,901 INFO django.server "OPTIONS /api/users/17/ HTTP/1.1" 200 0
+2024-06-15 11:54:16,921 INFO django.server "GET /api/files/ HTTP/1.1" 200 2
+2024-06-15 11:54:16,921 INFO django.server "GET /api/users/ HTTP/1.1" 200 50
+2024-06-15 11:54:16,932 INFO django.server "GET /api/users/17/ HTTP/1.1" 200 48
+2024-06-15 11:54:16,943 INFO django.server "GET /api/files/ HTTP/1.1" 200 2
+2024-06-15 11:54:16,955 INFO django.server "GET /api/users/17/ HTTP/1.1" 200 48
+2024-06-15 11:54:16,962 INFO django.server "GET /api/users/ HTTP/1.1" 200 50
+2024-06-15 11:54:33,337 INFO django.server "POST /api/files/ HTTP/1.1" 201 308
+2024-06-15 11:54:33,362 INFO django.server "GET /api/files/ HTTP/1.1" 200 310
+2024-06-15 11:54:58,922 INFO django.server "GET /logout/ HTTP/1.1" 200 75
+2024-06-15 11:55:03,380 INFO django.server "POST /login/ HTTP/1.1" 200 135
+2024-06-15 11:55:03,413 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:55:03,432 INFO django.server "GET /api/files/ HTTP/1.1" 200 310
+2024-06-15 11:55:03,436 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:55:03,438 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
+2024-06-15 11:55:03,458 INFO django.server "GET /api/files/ HTTP/1.1" 200 310
+2024-06-15 11:55:03,480 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
+2024-06-15 11:55:07,275 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:55:07,293 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:55:07,311 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:55:07,334 INFO django.server "GET /api/users/1/ HTTP/1.1" 200 117
+2024-06-15 11:55:07,342 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
+2024-06-15 11:55:07,385 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
+2024-06-15 11:55:12,271 INFO django.server "GET /api/files/ HTTP/1.1" 200 310
+2024-06-15 11:55:12,280 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
+2024-06-15 11:55:12,302 INFO django.server "GET /api/files/ HTTP/1.1" 200 310
+2024-06-15 11:55:12,327 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
