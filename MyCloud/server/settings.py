@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
 from datetime import date
-from decouple import config
+
 from dotenv import load_dotenv
 
-REACT_APP_API_URL = config('REACT_APP_API_URL').strip('"')
+REACT_APP_API_URL = os.getenv('REACT_APP_API_URL')
 load_dotenv()
 
 DEBUG = True

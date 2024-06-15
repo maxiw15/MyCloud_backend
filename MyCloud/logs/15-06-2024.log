@@ -92,3 +92,6 @@
 2024-06-15 11:55:12,280 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
 2024-06-15 11:55:12,302 INFO django.server "GET /api/files/ HTTP/1.1" 200 310
 2024-06-15 11:55:12,327 INFO django.server "GET /api/users/ HTTP/1.1" 200 1472
+2024-06-15 11:59:10,360 INFO django.utils.autoreload Watching for file changes with StatReloader
+2024-06-15 11:59:30,528 INFO django.utils.autoreload C:\Users\maxiw\PycharmProjects\MyCloud_backend\MyCloud\server\settings.py changed, reloading.
+2024-06-15 11:59:30,888 INFO django.utils.autoreload Watching for file changes with StatReloader

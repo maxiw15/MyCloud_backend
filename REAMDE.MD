@@ -1,5 +1,36 @@
 # Дипломный проект профессии «Fullstack-разработчик на Python»
 
+## Установка
+
+Для успешной установки необходимо предварительно запустить и развернуть сервер Postgres.
+
+В файле `.env`, который находится в репозитории бэкенда необходимо заполнить все поля:
+
+- `REACT_APP_API_URL`
+- `SECRET_KEY`
+- `POSTGRES_DB`
+- `POSTGRES_USER`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_HOST`
+- `POSTGRES_PORT`
+
+## Команды
+
+### Для бэкенда
+
+```bash
+
+pip install -r requirements.txt
+python manage.py makemigrations accounts
+python manage.py makemigrations storage
+python manage.py migrate
+python manage.py runserver
+```
+```bash
+yarn
+yarn start
+```
+
 ## Облачное хранилище «MyCloud»
 
 ### Цель проекта
