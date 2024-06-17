@@ -18,7 +18,9 @@
 - `POSTGRES_PORT`
 
 В файле settings.py (бэкенд) в переменных CSRF_TRUSTED_ORIGINS  и CORS_ALLOWED_ORIGINS необходимо прописать ip-адрес фронта
+
 В файлах adminSlice.js, authSlice.js, fileSlice.js фронтенд) необходимо заменить переменные со значением http://127.0.0.1:8000/ на http://ip-адрес-бэкенда:8000/
+
 ## Команды
 
 ### Для бэкенда
