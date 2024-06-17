@@ -31,7 +31,7 @@ pip install -r requirements.txt
 python manage.py makemigrations accounts
 python manage.py makemigrations storage
 python manage.py migrate
-python manage.py runserver
+python manage.py runserver ip-адрес
 ```
 ### Фронтенда
 ```bash
